@@ -17,6 +17,8 @@ class Todolist extends Component {
         this.state = store.getState();
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleStoreChange = this.handleStoreChange.bind(this);
+        this.handleButtonClick = this.handleButtonClick.bind(this);
+        //this.deleteItem = this.deleteItem.bind(this);
         store.subscribe(this.handleStoreChange);
         // console.log(this.state)
     }
@@ -30,14 +32,14 @@ class Todolist extends Component {
                     style={{width:'300px',marginRight:'10px'}}
                     onChange={this.handleInputChange}
                 ></Input>
-                <Button type="primary">提交</Button>
+                <Button type="primary" onClick={this.handleButtonClick}>提交</Button>
 
                 <List
                 style={{margin:'10px 10px 10px 0px',width:'500px'}}
                 bordered
                 dataSource={this.state.list}
-                renderItem={item => (
-                    <List.Item>
+                renderItem={(item,index) => (
+                    <List.Item onClick={this.deleteItem.bind(this,index)}>
                         {item}
                     </List.Item>
                 )}
@@ -54,6 +56,22 @@ class Todolist extends Component {
         store.dispatch(action)
 
         // console.log(e.target.value)
+    }
+
+    handleButtonClick(e){
+        const action = {
+            type : 'add_todo_item',
+        }
+        store.dispatch(action)
+    }
+
+    deleteItem(index){
+        // console.log("进入删除方法:",index)
+        const action = {
+            type : 'del_todo_item',
+            index:index,
+        }
+        store.dispatch(action)
     }
 
     handleStoreChange(){
