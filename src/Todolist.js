@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import {Input,Button,List} from 'antd'
 import 'antd/dist/antd.css'
 import store from './store/index'
+// import {CHANGE_INPUT_VALUE,ADD_TODO_ITEM,DEL_TODO_ITEM} from './store/actionTypes'
+import {getInputChangeAction,getAddTodoItemAction,getDelTodoItemAction} from './store/actionCreators'
 
 // const data = [
 //     'Racing car sprays burning fuel into crowd.',
@@ -49,28 +51,17 @@ class Todolist extends Component {
     }
 
     handleInputChange(e){
-        const action = {
-            type : 'change_input_value',
-            value : e.target.value
-        }
+        const action = getInputChangeAction(e.target.value);
         store.dispatch(action)
-
-        // console.log(e.target.value)
     }
 
     handleButtonClick(e){
-        const action = {
-            type : 'add_todo_item',
-        }
+        const action = getAddTodoItemAction();
         store.dispatch(action)
     }
 
     deleteItem(index){
-        // console.log("进入删除方法:",index)
-        const action = {
-            type : 'del_todo_item',
-            index:index,
-        }
+        const action = getDelTodoItemAction(index);
         store.dispatch(action)
     }
 
